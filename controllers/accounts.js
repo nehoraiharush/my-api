@@ -1,4 +1,4 @@
-const { response } = require('express');
+//const { response } = require('express');
 const express = require('express');
 //import express from 'express';
 const router = express.Router();
@@ -33,7 +33,7 @@ const arr = [
 //     });
 // });
 module.exports = router;
-import fetch from 'node-fetch'
+//const fetch = require('node-fetch');
 const url = "http://localhost:5090/api/accounts/sayHello";
 router.post('/login', (req, res) => {
     const { password, email } = req.body;
@@ -41,7 +41,7 @@ router.post('/login', (req, res) => {
     fetchUser
         .then(data => {
             data.json().then(rand => {
-                const findUseres = rand.filter(x => x.email == email && x.password == password);
+                const findUseres = rand.find(x => x.email == email && x.password == password);
                 console.log(findUseres);
             })
         })
