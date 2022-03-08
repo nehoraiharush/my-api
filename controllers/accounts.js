@@ -18,19 +18,34 @@ const arr = [
 
 
 //http://localhost:5090/api/accounts/sayHello
-router.post('/sayHello', (req, res) => {
+// router.post('/login', (req, res) => {
 
-    const { password, email } = req.body;
-    for (let i = 0; i < arr.length; i++) {
-        if (email == arr[i].email && password == arr[i].password) {
-            return res.status(200).json({
-                message: `Hello ${arr[i].username} nice seeing u here`
-            });
-        }
-    }
-    return res.status(200).json({
-        message1: `User not found`
-    });
-});
-
+//     const { password, email } = req.body;
+//     for (let i = 0; i < arr.length; i++) {
+//         if (email == arr[i].email && password == arr[i].password) {
+//             return res.status(200).json({
+//                 message: `Hello ${arr[i].username} nice seeing u here`
+//             });
+//         }
+//     }
+//     return res.status(200).json({
+//         message1: `User not found`
+//     });
+// });
 module.exports = router;
+import fetch from 'node-fetch'
+const url = "http://localhost:5090/api/accounts/sayHello";
+router.post('/login', (req, res) => {
+    const { password, email } = req.body;
+    const fetchUser = fetch(url);
+    fetchUser
+        .then(data => {
+            data.json().then(rand => {
+                const findUseres = rand.filter(x => x.email == email && x.password == password);
+                console.log(findUseres);
+            })
+        })
+        .catch(err => {
+            console.log(err);
+        })
+})
