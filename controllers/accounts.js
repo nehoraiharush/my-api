@@ -94,12 +94,13 @@ router.post('/signUp', async (req, res) => {
 })
 
 
-router.post('/logIn', async (req, res) => {
+router.post('/signIn', async (req, res) => {
     const { password, email } = req.body;
+    if (!email || !password)
+        return res.status(200).json({ message: "No email or password entered" });
     const exisingUser = arr.find(x => x.email == email);
     if (!exisingUser)
         return res.status(200).json({ message: "User didn't found" });
-
     const isMatch = await bcryptjs.compare(password, exisingUser.password);
     if (isMatch) {
         const token = await jsonwebtoken.sign(exisingUser, 'jso8seew0');
@@ -108,3 +109,12 @@ router.post('/logIn', async (req, res) => {
         return res.status(200).json({ message: "Wrong password" });
     }
 })
+
+router.post('/sayHello', async (req, res) => {
+    const { token } = req.body;
+    const data = await jsonwebtoken.verify(token, 'jso8seew0');
+    const temp = JSON.stringify(data)
+    return res.status(200).json({
+        message1: `Hello ${temp}`
+    });
+});
