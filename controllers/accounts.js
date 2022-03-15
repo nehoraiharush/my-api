@@ -1,5 +1,6 @@
 //const { response } = require('express');
 const express = require('express');
+//const fetch = require("node-fetch")
 //import express from 'express';
 const router = express.Router();
 
@@ -18,34 +19,29 @@ const arr = [
 
 
 //http://localhost:5090/api/accounts/sayHello
-// router.post('/login', (req, res) => {
+/*router.post('/sayHello', (req, res) => {
 
-//     const { password, email } = req.body;
-//     for (let i = 0; i < arr.length; i++) {
-//         if (email == arr[i].email && password == arr[i].password) {
-//             return res.status(200).json({
-//                 message: `Hello ${arr[i].username} nice seeing u here`
-//             });
-//         }
-//     }
-//     return res.status(200).json({
-//         message1: `User not found`
-//     });
-// });
-module.exports = router;
-//const fetch = require('node-fetch');
-const url = "http://localhost:5090/api/accounts/sayHello";
+    const { password, email } = req.body;
+    for (let i = 0; i < arr.length; i++) {
+        if (email == arr[i].email && password == arr[i].password) {
+            return res.status(200).json({
+                message: `Hello ${arr[i].username} nice seeing u here`
+            });
+        }
+    }
+    return res.status(200).json({
+        message1: `User not found`
+    });
+});*/
+
+//const url = "http://localhost:5090/api/accounts/login";
 router.post('/login', (req, res) => {
     const { password, email } = req.body;
-    const fetchUser = fetch(url);
-    fetchUser
-        .then(data => {
-            data.json().then(rand => {
-                const findUseres = rand.find(x => x.email == email && x.password == password);
-                console.log(findUseres);
-            })
-        })
-        .catch(err => {
-            console.log(err);
-        })
+    findUsers = arr.find(x => x.email == email && x.password == password);
+    if (!findUsers) {
+        return res.status(404).json({ message: "User not found" });
+    } else {
+        return res.status(200).json({ message: `Hi ${findUsers.username} good having u here` });
+    }
 })
+module.exports = router;
