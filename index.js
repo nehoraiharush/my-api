@@ -8,7 +8,6 @@ const app = express();
 app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
 
-
 const accountsRoute = require('./controllers/accounts');
 //import accountsRoute from './controllers/accounts';
 app.use('/api/accounts', accountsRoute);
